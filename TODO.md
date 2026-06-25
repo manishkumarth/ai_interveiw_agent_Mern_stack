@@ -1,0 +1,12 @@
+- [x] Step 1: Update backend User model to include password + hashing support
+- [x] Step 2: Implement backend auth endpoints: /api/auth/register and /api/auth/login (email + password)
+- [x] Step 3: Update backend JWT verification middleware (isAuth) to accept Authorization header token and localStorage JWT
+- [ ] Step 4: Update backend existing /google auth to return token+user (optional), or keep working
+- [x] Step 5: Update frontend Auth page UI to remove Firebase and add email+password login (and optional signup)
+- [x] Step 6: Update frontend App.jsx to auto-login on refresh from localStorage token/user and configure axios auth header
+- [x] Step 7: Apply dark neon theme across global styles and key components/pages
+- [ ] Step 8: Validate by running server + client and verifying:
+  - login works
+  - refresh keeps logged in (no Firebase)
+  - protected routes load (interview/history/report)
+  - theme is applied consistently
