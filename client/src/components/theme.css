@@ -1,0 +1,26 @@
+:root{
+  --bg0:#05060a;
+  --bg1:#070b14;
+  --text:#e6f2ff;
+  --muted:#7a86a8;
+  --neon:#00ffb4;
+  --neon2:#1a2cff;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  background: var(--bg0);
+  color: var(--text);
+}
+
+.neon-panel{
+  background: rgba(10,12,20,0.92);
+  border: 1px solid rgba(26,44,255,0.20);
+  box-shadow: 0 0 0 1px rgba(0,255,180,0.06);
+}
+
+.neon-border{
+  border-color: rgba(0,255,180,0.25) !important;
+}
+

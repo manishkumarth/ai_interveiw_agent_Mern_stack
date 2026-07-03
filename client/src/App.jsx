@@ -9,6 +9,8 @@ import InterviewPage from './pages/InterviewPage'
 import InterviewHistory from './pages/InterviewHistory'
 import Pricing from './pages/Pricing'
 import InterviewReport from './pages/InterviewReport'
+import ThemeWrapper from './components/ThemeWrapper'
+
 
 export const ServerUrl  = "https://ai-interveiw-agent-mern-stack.onrender.com"
 // export const ServerUrl = "http://localhost:8000"
@@ -57,14 +59,16 @@ function App() {
   }, [dispatch])
 
   return (
-    <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/auth' element={<Auth />} />
-      <Route path='/interview' element={<InterviewPage />} />
-      <Route path='/history' element={<InterviewHistory />} />
-      <Route path='/pricing' element={<Pricing />} />
-      <Route path='/report/:id' element={<InterviewReport />} />
-    </Routes>
+    <ThemeWrapper>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/auth' element={<Auth />} />
+        <Route path='/interview' element={<InterviewPage />} />
+        <Route path='/history' element={<InterviewHistory />} />
+        <Route path='/pricing' element={<Pricing />} />
+        <Route path='/report/:id' element={<InterviewReport />} />
+      </Routes>
+    </ThemeWrapper>
   )
 }
 
