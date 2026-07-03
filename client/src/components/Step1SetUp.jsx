@@ -28,6 +28,10 @@ function Step1SetUp({ onStart }) {
 
 
     const handleUploadResume = async () => {
+        // Guests have no JWT; they can't call protected resume analysis.
+        if (!userData) {
+            return;
+        }
         if (!resumeFile || analyzing) return;
         setAnalyzing(true)
 
@@ -193,7 +197,7 @@ function Step1SetUp({ onStart }) {
 
                         </select>
 
-                        {!analysisDone && (
+                        {!analysisDone && userData && (
                             <motion.div
                                 whileHover={{ scale: 1.02 }}
                                 onClick={() => document.getElementById("resumeUpload").click()}
