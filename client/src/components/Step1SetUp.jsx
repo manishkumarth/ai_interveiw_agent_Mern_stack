@@ -57,19 +57,39 @@ function Step1SetUp({ onStart }) {
     const handleStart = async () => {
         setLoading(true)
         try {
-           const result = await axios.post(ServerUrl + "/api/interview/generate-questions" , {role, experience, mode , resumeText, projects, skills } , {withCredentials:true}) 
-           console.log(result.data)
-           if(userData){
-            dispatch(setUserData({...userData , credits:result.data.creditsLeft}))
-           }
-           setLoading(false)
-           onStart(result.data)
+            const isLoggedIn = !!userData;
+            const url = isLoggedIn
+                ? ServerUrl + "/api/interview/generate-questions"
+                : ServerUrl + "/api/interview-guest/generate-questions";
 
+            const result = await axios.post(
+                url,
+                { role, experience, mode, resumeText, projects, skills },
+                { withCredentials: true }
+            )
+
+            if (userData && result.data?.creditsLeft != null) {
+                dispatch(setUserData({ ...userData, credits: result.data.creditsLeft }))
+            }
+
+            if (result.data?.blocked) {
+                window.location.href = "/pricing";
+                return;
+            }
+
+            setLoading(false)
+            onStart(result.data)
         } catch (error) {
+            const blocked = error?.response?.data?.blocked;
+            if (blocked) {
+                window.location.href = "/pricing";
+                return;
+            }
             console.log(error)
             setLoading(false)
         }
     }
+
     return (
         <motion.div
             initial={{ opacity: 0 }}

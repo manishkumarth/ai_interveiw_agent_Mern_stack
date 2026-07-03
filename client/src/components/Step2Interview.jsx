@@ -251,22 +251,34 @@ function Step2Interview({ interviewData, onFinish }) {
     setIsSubmitting(true)
 
     try {
-      const result = await axios.post(ServerUrl + "/api/interview/submit-answer", {
-        interviewId,
-        questionIndex: currentIndex,
-        answer,
-        timeTaken:
-          currentQuestion.timeLimit - timeLeft,
-      } , {withCredentials:true})
+      const isGuest = !!interviewData?.isGuest;
+      const url = isGuest ? "/api/interview-guest/submit-answer" : "/api/interview/submit-answer";
+
+      const result = await axios.post(
+        ServerUrl + url,
+        {
+          interviewId,
+          questionIndex: currentIndex,
+          answer,
+          timeTaken: currentQuestion.timeLimit - timeLeft,
+        },
+        { withCredentials: true }
+      )
 
       setFeedback(result.data.feedback)
       speakText(result.data.feedback)
       setIsSubmitting(false)
     } catch (error) {
-console.log(error)
-setIsSubmitting(false)
+      const blocked = error?.response?.data?.blocked;
+      if (blocked) {
+        window.location.href = "/pricing";
+        return;
+      }
+      console.log(error)
+      setIsSubmitting(false)
     }
   }
+
 
   const handleNext =async () => {
     setAnswer("");
@@ -291,14 +303,27 @@ setIsSubmitting(false)
     stopMic()
     setIsMicOn(false)
     try {
-      const result = await axios.post(ServerUrl+ "/api/interview/finish" , { interviewId} , {withCredentials:true})
+      const isGuest = !!interviewData?.isGuest;
+      const url = isGuest ? "/api/interview-guest/finish" : "/api/interview/finish";
+
+      const result = await axios.post(
+        ServerUrl + url,
+        { interviewId },
+        { withCredentials: true }
+      )
 
       console.log(result.data)
       onFinish(result.data)
     } catch (error) {
+      const blocked = error?.response?.data?.blocked;
+      if (blocked) {
+        window.location.href = "/pricing";
+        return;
+      }
       console.log(error)
     }
   }
+
 
 
    useEffect(() => {
