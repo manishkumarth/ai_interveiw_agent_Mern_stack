@@ -102,11 +102,15 @@ export const generateQuestion = async (req, res) => {
       });
     }
 
-    if (user.credits < 50) {
+    const PER_INTERVIEW_CREDITS = 25;
+
+    if (user.credits < PER_INTERVIEW_CREDITS) {
       return res.status(400).json({
-        message: "Not enough credits. Minimum 50 required."
+        message: "Not enough credits. Minimum 25 required.",
+        blocked: true,
       });
     }
+
 
     const projectText = Array.isArray(projects) && projects.length
       ? projects.join(", ")
@@ -195,11 +199,14 @@ Make questions based on the candidate’s role, experience,interviewMode, projec
       });
     }
 
-    user.credits -= 50;
+    user.credits -= 25;
     await user.save();
+
 
     const interview = await Interview.create({
       userId: user._id,
+      isGuest: false,
+      guestIp: undefined,
       role,
       experience,
       mode,
@@ -208,8 +215,9 @@ Make questions based on the candidate’s role, experience,interviewMode, projec
         question: q,
         difficulty: ["easy", "easy", "medium", "medium", "hard"][index],
         timeLimit: [60, 60, 90, 90, 120][index],
-      }))
+      })),
     })
+
 
     res.json({
       interviewId: interview._id,
