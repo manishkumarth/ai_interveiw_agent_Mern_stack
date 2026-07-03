@@ -73,10 +73,7 @@ function Home() {
             <div className='flex flex-wrap justify-center gap-4 mt-10'>
               <motion.button
                 onClick={() => {
-                  if (!userData) {
-                    setShowAuth(true)
-                    return;
-                  }
+                  // Guest users are allowed (IP-based). No login required.
                   navigate("/interview")
                 }}
                 whileHover={{ opacity: 0.9, scale: 1.03 }}

@@ -78,11 +78,12 @@ function Navbar() {
 
                 <div className='relative'>
                     <button
-                    onClick={()=>{
+                        onClick={()=>{
+                         // Guest users are allowed to view interview pages.
                          if(!userData){
-                            setShowAuth(true)
+                            navigate('/pricing')
                             return;
-                        }
+                         }
                         setShowUserPopup(!showUserPopup);
                         setShowCreditPopup(false)
                     }} className='w-9 h-9 bg-black text-white rounded-full flex items-center justify-center font-semibold'>
